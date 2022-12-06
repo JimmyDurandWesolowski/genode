@@ -1,0 +1,11 @@
+--- src/kernel/sel4/libsel4/tools/syscall_stub_gen.py
++++ src/kernel/sel4/libsel4/tools/syscall_stub_gen.py
+@@ -1034,7 +1034,7 @@ def main():
+     else:
+         wordsize = int(args.wsize)
+ 
+-    if wordsize is -1:
++    if wordsize == -1:
+         print("Invalid word size.")
+         sys.exit(2)
+ 
