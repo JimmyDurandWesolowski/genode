@@ -44,22 +44,27 @@ BUILD_DIR ?= $(GENODE_DIR)/build/$(PLATFORM)
 #
 # Sanity checks
 #
-ifneq ($(PLATFORM),)
-   #
-   # Check if platform is unknown
-   #
-   ifeq ($(filter $(PLATFORM),$(PLATFORMS)),)
-      $(error Bad platform argument '$(PLATFORM)')
-   endif
+#
+# The "usage" target does not depend on PLATFORM to be defined properly, as it
+# helps the user knowing the supported platforms.
+#
+ifeq (,$(filter usage,$(MAKECMDGOALS)))
+  ifneq ($(PLATFORM),)
+     #
+     # Check if platform is unknown
+     #
+     ifeq ($(filter $(PLATFORM),$(PLATFORMS)),)
+        $(error Bad platform argument '$(PLATFORM)')
+     endif
 
-   #
-   # Check if build directory exists already
-   #
-   ifneq ($(wildcard $(BUILD_DIR)),)
-      $(error Build directory '$(BUILD_DIR)' already exists)
-   endif
+     #
+     # Check if build directory exists already
+     #
+     ifneq ($(wildcard $(BUILD_DIR)),)
+        $(error Build directory '$(BUILD_DIR)' already exists)
+     endif
+  endif
 endif
-
 SHELL := bash
 
 
