@@ -149,8 +149,6 @@ export SPECS
 
 include $(BASE_DIR)/mk/global.mk
 
-export LIBGCC_INC_DIR := $(shell dirname `$(CUSTOM_CXX_LIB) -print-libgcc-file-name`)/include
-
 #
 # Find out about the target directories to build
 #
@@ -195,11 +193,16 @@ check_tool = $(if $(shell command -v $(1)),,$(error Need to have '$(1)' installe
 #
 ifneq ($(DST_DIRS),)
 REQUIRED_GCC_VERSION ?= 10.3.0
+ifeq ($(wildcard $(CUSTOM_CXX)),)
+  $(error "Toolchain $(CUSTOM_CXX) is required")
+endif
 GCC_VERSION := $(filter $(REQUIRED_GCC_VERSION) ,$(shell $(CUSTOM_CXX) --version))
 ifneq ($(GCC_VERSION), $(REQUIRED_GCC_VERSION))
 $(error "$(CUSTOM_CXX) version $(REQUIRED_GCC_VERSION) is required")
 endif
 endif
+
+export LIBGCC_INC_DIR := $(shell dirname `$(CUSTOM_CXX_LIB) -print-libgcc-file-name`)/include
 
 ifneq ($(STATIC_ANALYZE),)
 $(call check_tool,scan-build)
