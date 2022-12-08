@@ -1,3 +1,5 @@
 # enable parallel build
-#MAKE += -j4
+ifeq ($(NO_PARALLEL),)
+  MAKE += -j4
+endif # !NO_PARALLEL
 
