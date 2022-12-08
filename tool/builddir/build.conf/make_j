@@ -1,5 +1,5 @@
 # enable parallel build
 ifeq ($(NO_PARALLEL),)
-  MAKE += -j4
+  MAKE += --jobs=$(CPUS) --load-average=$(shell expr $(CPUS) + 1 )
 endif # !NO_PARALLEL
 
